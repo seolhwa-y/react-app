@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.reactApp.study.repository.register.RegisterMapper">
+	
+	<!--아이디 중복 검사-->
+	 <select id="checkID" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM tb_userinfo WHERE loginID = #{loginID}
+    </select>
+    <!--휴대폰 중복 검사-->
+	 <select id="checkHp" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM tb_userinfo WHERE hp = #{hp}
+    </select>
+	<!--회원 가입-->
+	<insert id="insertUser" parameterType="kr.reactApp.study.vo.register.UserVo">
+		INSERT INTO tb_userinfo (loginID, name, password, hp, user_type )
+		VALUES (#{loginID}, #{name}, #{password}, #{hp}, "A")
+	</insert>
+	
+	<!--아이디 비밀번호 찾기-->
+	 <select id="findAccount">
+        SELECT * 
+        FROM tb_userinfo
+        WHERE hp = #{hp}
+    </select>
+	<!--임시 비밀번호 업데이트-->
+	 <update id="updateUserPassword">
+        UPDATE tb_userinfo
+        SET password = #{password}
+        WHERE hp = #{hp}
+    </update>
+    
+</mapper>
