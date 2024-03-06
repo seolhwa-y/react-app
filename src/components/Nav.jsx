@@ -9,7 +9,7 @@ const Nav = () => {
                 <NavLink to="/">홈</NavLink>
             </h2>
             <h2>
-                <NavLink to="/about">소개</NavLink>
+                <NavLink to="/notice">공지사항</NavLink>
             </h2>
             <h2>
                 <NavLink to="/basic">생코</NavLink>
