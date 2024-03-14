@@ -1,5 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+// import { Home, Notice, MyPage, Basic } from './components';
+// import Home from './Page/Home'; // 홈
+// import Notice from './Page/Notice'; // 공지사항
+// import MyPage from './Page/MyPage'; // 마이페이지
+// import Basic from './CodingForLife/Basic'; // 생활코딩
 // import '../styles/common/Nav.css';
 
 const Nav = () => {
