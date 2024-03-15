@@ -9,7 +9,7 @@
       SELECT  loginID as lgn_id
                , name as usr_nm
                , user_Type as mem_author
-               , del_yn
+               /*, del_yn */
       FROM tb_userinfo 
      WHERE loginID = #{lgn_Id}
         AND password = #{pwd}

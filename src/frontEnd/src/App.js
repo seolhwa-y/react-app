@@ -9,14 +9,18 @@ import {
     //     TeamOutlined,
 } from '@ant-design/icons';
 import { Layout, Button, theme } from 'antd';
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import axios from 'axios'; // api 통신
 import './App.css';
-import { Home, Notice, MyPage, Basic, Diary, ToDoList, SamplePage } from './components';
+import { Login, Home, Notice, MyPage, Basic, Diary, ToDoList, SamplePage } from './components';
+
+axios.defaults.withCredentials = true;
 
 const { Header, Content, Sider } = Layout;
 
 const menuItems = [
-    { url: '/', name: '홈', component: Home },
+    { url: '/', name: '로그인', component: Login },
+    { url: '/Home', name: '홈', component: Home },
     { url: '/Basic', name: '생활코딩', component: Basic },
     { url: '/Notice', name: '공지사항', component: Notice },
     { url: '/Diary', name: '다이어리', component: Diary },
@@ -79,7 +83,7 @@ function App() {
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
                     }}>
-                    <img src={logo} className="App-logo" alt="logo" />
+                    {/* <img src={logo} className="App-logo" alt="logo" /> */}
 
                     {/* 라우터 version 6 */}
                     <Routes>

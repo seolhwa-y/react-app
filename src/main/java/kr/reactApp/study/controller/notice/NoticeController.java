@@ -22,7 +22,6 @@ import kr.reactApp.study.vo.notice.NoticeModel;
 
 
 @Controller
-@RequestMapping("/api/")
 public class NoticeController {
 	
 	// Set logger

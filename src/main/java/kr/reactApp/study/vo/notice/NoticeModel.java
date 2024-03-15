@@ -3,7 +3,7 @@ package kr.reactApp.study.vo.notice;
 public class NoticeModel {
 	
 	// 게시판 글 번호
-	private int row_num;
+	private int key;
 	private int noticeNo;
 	private String loginId;
 	private String noticeTitle;
@@ -20,11 +20,11 @@ public class NoticeModel {
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
 	}
-	public int getRow_num() {
-		return row_num;
+	public int getKey() {
+		return key;
 	}
-	public void setRow_num(int row_num) {
-		this.row_num = row_num;
+	public void setKey(int key) {
+		this.key = key;
 	}
 	public int getNoticeNo() {
 		return noticeNo;

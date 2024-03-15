@@ -12,7 +12,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,7 +64,7 @@ public class LoginController {
 	 * 리액트 서버 연동 api
 	 * @return String
 	 */
-	@GetMapping("/api/hello")
+	@GetMapping("/hello")
 	@ResponseBody // @RestController = @Controller + @ResponseBody
 	public String hello() {
 		return "Hello, world!";
@@ -129,7 +128,7 @@ public class LoginController {
 			logger.info("   - lgnInfoModel : " + lgnInfoModel);
 
 			if (lgnInfoModel != null) {
-				if ("N".equals(lgnInfoModel.getDel_yn())) {
+				// if ("N".equals(lgnInfoModel.getDel_yn())) {
 					result = "SUCCESS";
 					resultMsg = "사용자 로그인 정보가 일치 합니다.";
 					System.out.println("asdf" + lgnInfoModel.getApproval_cd());
@@ -161,10 +160,10 @@ public class LoginController {
 					resultMap.put("usrMnuAtrt", listUsrMnuAtrtModel);
 					resultMap.put("userType", lgnInfoModel.getMem_author());
 					resultMap.put("serverName", request.getServerName());
-				} else {
-					result = "FALSE";
-					resultMsg = "회원가입을 진행해주세요.";
-				}
+				// } else {
+				// 	result = "FALSE";
+				// 	resultMsg = "회원가입을 진행해주세요.";
+				// }
 			} else {
 
 				result = "FALSE";

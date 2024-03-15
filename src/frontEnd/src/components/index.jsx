@@ -1,5 +1,6 @@
 // components/index.js
 
+export { default as Login } from './Login'; // 로그인
 export { default as Nav } from './Nav'; // 메뉴
 export { default as Home } from './Home'; // 메인 페이지
 export { default as Basic } from './Basic'; // 생활코딩

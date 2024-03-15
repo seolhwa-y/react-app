@@ -3,8 +3,11 @@
 <mapper namespace="kr.reactApp.study.repository.notice.NoticeMapper">
 	<!-- 공지사항 목록 조회 -->
 	<select id = "noticeList" parameterType="java.util.Map" resultType="kr.reactApp.study.vo.notice.NoticeModel">
+		SET @rownum:=0; 
+
 		SELECT
-				n.ntc_no as noticeNo
+				@rownum:=@rownum+1 as 'key'
+			,	n.ntc_no as noticeNo
 			,	n.ntc_title as noticeTitle
 			,	DATE_FORMAT(n.ntc_regdate, '%Y-%m-%d') as noticeRegdate
 			,	u.loginID as loginId
@@ -24,7 +27,7 @@
 			</if>		
 		</where>
 		 ORDER BY n.ntc_no DESC
-		 LIMIT #{pageIndex}, #{pageSize}
+		 <!-- LIMIT #{pageIndex}, #{pageSize} -->
 	</select>
 	
 		
