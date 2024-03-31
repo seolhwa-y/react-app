@@ -1,20 +1,9 @@
 import React, { useState } from 'react';
-import { Route, Routes, NavLink } from 'react-router-dom'; // version 6 :: 페이지 이동
-import {
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    //     UserOutlined,
-    //     FileOutlined,
-    //     PieChartOutlined,
-    //     TeamOutlined,
-} from '@ant-design/icons';
+import { Route, Routes, Link } from 'react-router-dom'; // NavLink -> Link로 변경
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Layout, Button, theme } from 'antd';
-// import logo from './logo.svg';
-import axios from 'axios'; // api 통신
 import './App.css';
 import { Login, Home, Notice, MyPage, Basic, Diary, ToDoList, SamplePage } from './components';
-
-axios.defaults.withCredentials = true;
 
 const { Header, Content, Sider } = Layout;
 
@@ -27,14 +16,9 @@ const menuItems = [
     { url: '/ToDoList', name: '투두리스트', component: ToDoList },
     { url: '/SamplePage', name: '샘플페이지', component: SamplePage },
     { url: '/MyPage', name: '마이페이지', component: MyPage },
-
-    // 다른 메뉴들 추가
 ];
 
-// 화면 로딩 기능 추가
 function App() {
-    /* package.json 깃허브용 "homepage": "https://seolhwa-y.github.io/react-app", 추가 */
-
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -42,21 +26,16 @@ function App() {
 
     return (
         <Layout>
-            {/* 사이드바 메뉴 표기 */}
             <Sider trigger={null} collapsible collapsed={collapsed}>
-                <div className="demo-logo-vertical" />
-                {/* <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} /> */}
-
-                {/* 동적으로 메뉴 뿌리기 */}
                 {menuItems.map((menuItem, index) => (
                     <p key={index}>
-                        <NavLink to={menuItem.url}>{menuItem.name}</NavLink>
+                        <Link to={menuItem.url}>{menuItem.name}</Link>{' '}
+                        {/* NavLink -> Link로 변경 */}
                     </p>
                 ))}
             </Sider>
 
             <Layout>
-                {/* 헤더 */}
                 <Header
                     style={{
                         padding: 0,
@@ -74,7 +53,6 @@ function App() {
                     />
                 </Header>
 
-                {/* 본문 */}
                 <Content
                     style={{
                         margin: '24px 16px',
@@ -83,16 +61,13 @@ function App() {
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
                     }}>
-                    {/* <img src={logo} className="App-logo" alt="logo" /> */}
-
-                    {/* 라우터 version 6 */}
                     <Routes>
                         {menuItems.map((menuItem, index) => (
                             <Route
+                                exact
                                 key={index}
                                 path={menuItem.url}
-                                // component={<menuItem.component />} // version 6 이전
-                                element={<menuItem.component />} // version 6
+                                element={<menuItem.component />}
                             />
                         ))}
                     </Routes>

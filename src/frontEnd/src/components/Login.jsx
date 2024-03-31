@@ -1,27 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios'; // api 통신
-import { Button, Checkbox, Form, Input } from 'antd';
-
-const onFinish = (values) => {
-    let params = new URLSearchParams(values);
-
-    axios // RestAPI 활용해서 데이터 가져오기
-        .post('/api/loginProc.do', params)
-        .then((response) => {
-            console.log('response', response.data);
-            console.log('usrMnuAtrt : ', response.data.usrMnuAtrt);
-        })
-        .catch((error) => console.log(error));
-};
-
-const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
+import { Button, Checkbox, Form, Input, Alert, Space } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate();
+    const [error, setError] = useState(null); // 실패 메시지 상태 추가
+
+    const onFinish = (values) => {
+        let params = new URLSearchParams(values);
+
+        axios
+            .post('/api/loginProc.do', params)
+            .then((response) => {
+                const res = response.data;
+
+                console.log('response', response.data);
+
+                if (res.result === 'SUCCESS') {
+                    console.log('usrMnuAtrt : ', response.data.usrMnuAtrt);
+                    navigate('/Home'); // 페이지 이동
+                } else {
+                    setError(res.resultMsg); // 실패 시 메세지 설정
+                }
+            })
+            .catch((error) => console.log(error));
+    };
+
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+        setError('로그인에 실패했습니다. 입력된 정보를 확인해주세요.'); // 일반적인 실패 메시지 설정
+    };
+
     return (
         <div>
-            <h1>로그인</h1>
+            <h1>로그인</h1>{' '}
             <p>{/* 백엔드에서 가져온 데이터입니다 (Link / Name): {link} / {name} */}</p>
             <hr />
             <Form
@@ -47,7 +60,7 @@ const Login = () => {
                     rules={[
                         {
                             required: true,
-                            message: '아이디를 입렧해주세요.',
+                            message: '아이디를 입력해주세요.',
                         },
                     ]}>
                     <Input />
@@ -85,6 +98,11 @@ const Login = () => {
                     </Button>
                 </Form.Item>
             </Form>
+            {error && ( // 실패 메시지가 있을 경우에만 표시
+                <Space direction="vertical" style={{ width: '100%' }}>
+                    <Alert description={error} type="error" />
+                </Space>
+            )}
         </div>
     );
 };

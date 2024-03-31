@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // api 통신
-import { Divider, Table } from 'antd';
+import { Divider, Table, Button, Drawer, Space } from 'antd';
 
 const Notice = () => {
+    const [open, setOpen] = useState(false); // 공지사항 상세내용 열기
+    const [selectedNotice, setSelectedNotice] = useState(null); // 공지사항 상세내용 통신용
+
+    // 공지사항 테이블 컬럼
     const columns = [
         {
             title: 'No',
@@ -26,39 +30,21 @@ const Notice = () => {
         },
     ];
 
-    const [data, setData] = useState([
-        {
-            key: '1',
-            noticeNo: '1',
-            loginName: 'John Brown',
-            noticeRegdate: 32,
-            noticeTitle: 'New York No. 1 Lake Park',
-        },
-        {
-            key: '2',
-            noticeNo: '2',
-            loginName: 'Jim Green',
-            noticeRegdate: 42,
-            noticeTitle: 'London No. 1 Lake Park',
-        },
-        {
-            key: '3',
-            noticeNo: '3',
-            loginName: 'Joe Black',
-            noticeRegdate: 32,
-            noticeTitle: 'Sydney No. 1 Lake Park',
-        },
-    ]);
+    // 공지사항 데이터 저장
+    const [data, setData] = useState([]);
 
+    // 공지사항 상세보기
+    const showNoticeDetail = (record) => {
+        setSelectedNotice(record);
+        setOpen(true);
+    };
+
+    // 공지사항 목록 가져오기
     useEffect(() => {
-        axios // RestAPI 활용해서 데이터 가져오기
+        axios
             .get('/api/noticeList.do', { params: { currentPage: '1', pageSize: '10' } })
             .then((response) => {
-                console.log('response', response.data);
-                console.log('notice : ', response.data.notice);
                 setData(response.data.notice);
-
-                //setHello(response.data);
             })
             .catch((error) => console.log(error));
     }, []);
@@ -68,7 +54,39 @@ const Notice = () => {
             <Divider>
                 <h1>공지사항</h1>
             </Divider>
-            <Table columns={columns} dataSource={data} size="middle" />
+
+            {/* 공지상항 기본 테이블 */}
+            <Table
+                columns={columns}
+                dataSource={data}
+                size="middle"
+                onRow={(record) => ({ onClick: () => showNoticeDetail(record) })}
+            />
+
+            {/* 공지사항 상세내용 */}
+            <Drawer
+                title={selectedNotice ? selectedNotice.noticeTitle : ''}
+                placement="bottom"
+                width={500}
+                onClose={() => setOpen(false)}
+                visible={open}
+                footer={
+                    <Space>
+                        <Button onClick={() => setOpen(false)}>Cancel</Button>
+                        <Button type="primary" onClick={() => setOpen(false)}>
+                            OK
+                        </Button>
+                    </Space>
+                }>
+                {selectedNotice && (
+                    <>
+                        <p>No: {selectedNotice.noticeNo}</p>
+                        <p>Title: {selectedNotice.noticeTitle}</p>
+                        <p>Author: {selectedNotice.loginName}</p>
+                        <p>Date: {selectedNotice.noticeRegdate}</p>
+                    </>
+                )}
+            </Drawer>
         </>
     );
 };
