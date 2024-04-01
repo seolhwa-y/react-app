@@ -3,7 +3,17 @@ import { Route, Routes, Link } from 'react-router-dom'; // NavLink -> Link로 �
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Layout, Button, theme } from 'antd';
 import './App.css';
-import { Login, Home, Notice, MyPage, Basic, Diary, ToDoList, SamplePage } from './components';
+import {
+    Login,
+    Home,
+    Notice,
+    MyPage,
+    Basic,
+    Diary,
+    ToDoList,
+    SamplePage,
+    Pokemon,
+} from './components/index.jsx';
 
 const { Header, Content, Sider } = Layout;
 
@@ -16,6 +26,7 @@ const menuItems = [
     { url: '/ToDoList', name: '투두리스트', component: ToDoList },
     { url: '/SamplePage', name: '샘플페이지', component: SamplePage },
     { url: '/MyPage', name: '마이페이지', component: MyPage },
+    { url: '/Pokemon', name: '포켓몬', component: Pokemon },
 ];
 
 function App() {
