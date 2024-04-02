@@ -6,68 +6,35 @@ function Pokemon() {
 
     useEffect(() => {
         const getPokemonData = async (num) => {
-            let nums = num || 20;
-            const requests = [];
+            const newPokemonData = [];
+            let nums = num || 300;
 
-            for (let i = 1; i <= nums; i++) {
+            const requests = Array.from({ length: nums }, (_, i) => i + 1).map((i) => {
                 const pokemonPromise = axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`);
                 const speciesPromise = axios.get(`https://pokeapi.co/api/v2/pokemon-species/${i}`);
+                return Promise.all([pokemonPromise, speciesPromise]);
+            });
 
-                requests.push(pokemonPromise);
-                requests.push(speciesPromise);
-            }
+            // API 두개를 날려서 받아오기 때문에 모두 완료할 때 까지 기다리기 위하여 Promise.all 사용(그냥 하면 속도가 느림)
+            const responses = await Promise.all(requests);
 
-            Promise.all(requests)
-                .then((responses) => {
-                    const newPokemonData = [];
+            responses.forEach(([pokemonResponse, speciesResponse]) => {
+                const koreanName = speciesResponse.data.names.find(
+                    (name) => name.language.name === 'ko'
+                );
 
-                    for (let i = 0; i < responses.length; i += 2) {
-                        const pokemonRes = responses[i];
-                        const speciesRes = responses[i + 1];
-
-                        const koreanName = speciesRes.data.names.find(
-                            (name) => name.language.name === 'ko'
-                        );
-
-                        newPokemonData.push({
-                            img: pokemonRes.data.sprites.front_default,
-                            korean_name: koreanName.name,
-                        });
-                    }
-
-                    setPokemonData(newPokemonData);
-                })
-                .catch((error) => {
-                    console.error('Error fetching Pokemon data:', error);
+                // API를 통해 이름과 이미지 저장
+                newPokemonData.push({
+                    img: pokemonResponse.data.sprites.front_default,
+                    name: koreanName.name,
                 });
+            });
+
+            // 포켓몬 데이터 저장
+            setPokemonData(newPokemonData);
         };
 
-        // useEffect(() => {
-        //     const getPokemonData = async (num) => {
-        //         let nums = num || 20;
-        //         const newPokemonData = [];
-
-        //         for (let i = 1; i <= nums; i++) {
-        //             const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`);
-
-        //             const speciesResponse = await axios.get(
-        //                 `https://pokeapi.co/api/v2/pokemon-species/${i}`
-        //             );
-
-        //             const koreanName = speciesResponse.data.names.find(
-        //                 (name) => name.language.name === 'ko'
-        //             );
-
-        //             pokemonData.push({
-        //                 korean_name: koreanName.name,
-        //                 img: response.data.sprites.front_default,
-        //             });
-        //         }
-
-        //         setPokemonData(newPokemonData);
-        //     };
-
-        console.log(pokemonData);
+        // 포켓몬 API 시작
         getPokemonData();
     }, []);
 
@@ -90,9 +57,13 @@ function Pokemon() {
                         style={{
                             textAlign: 'center',
                             width: '150px',
+                            border: 'solid 1px lightgray',
+                            borderRadius: '20px',
+                            boxShadow: '4px 5px 5px 0px lightgray',
+                            marginBottom: '25px',
                         }}>
-                        <p>{item.korean_name}</p>
-                        <img src={item.img} alt={item.korean_name} />
+                        <p>{item.name}</p>
+                        <img src={item.img} alt={item.name} />
                     </span>
                 ))}
             </div>
