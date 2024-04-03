@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { Checkbox, Button, Input, Space } from 'antd';
 
 function ToDoList() {
-    const [todos, setTodos] = useState([
-        { id: 1, text: '체크박스1', done: false },
-        { id: 2, text: '체크박스2', done: true },
-    ]);
+    const [todos, setTodos] = useState([]);
 
     const onChange = (id) => {
         setTodos((prevTodos) =>
