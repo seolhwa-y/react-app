@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Checkbox, Button, Input, Space } from 'antd';
+import { Checkbox, Button, Input, Space, DatePicker } from 'antd';
 
 function ToDoList() {
     const [todos, setTodos] = useState([]); // 투투리스트 저장 State
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [todoName, setTodoName] = useState('');
 
     // 투두리스트 상태 변경 시 해당 구역으로 이동
     const onChange = (id) => {
@@ -13,13 +15,21 @@ function ToDoList() {
 
     // 투두리스트 추가
     const insToDo = () => {
-        const inputValue = document.getElementById('do').value;
-        console.log(inputValue);
+        if (!selectedDate) return console.log('날짜를 선택해주세요');
+        if (!todoName) return console.log('내용을 입력해주세요');
 
         setTodos((prevTodos) => [
             ...prevTodos,
-            { id: prevTodos.length + 1, text: inputValue, done: false },
+            {
+                id: prevTodos.length + 1,
+                content: todoName,
+                done: false,
+                date: selectedDate.toISOString().slice(0, 10).replaceAll('-', ''),
+            },
         ]);
+
+        setSelectedDate(null);
+        setTodoName('');
     };
 
     // 투두리스트 영역 그리기
@@ -39,7 +49,7 @@ function ToDoList() {
                             key={todo.id}
                             onChange={() => onChange(todo.id)}
                             checked={todo.done}>
-                            {todo.text}
+                            {todo.content}
                         </Checkbox>
                     ))}
                 </fieldset>
@@ -56,7 +66,7 @@ function ToDoList() {
                             key={todo.id}
                             onChange={() => onChange(todo.id)}
                             checked={todo.done}>
-                            {todo.text}
+                            {todo.content}
                         </Checkbox>
                     ))}
                 </fieldset>
@@ -76,7 +86,18 @@ function ToDoList() {
                 style={{
                     width: '100%',
                 }}>
-                <Input placeholder="등록할 ToDoList를 입력하세요" id="do" style={{ width: 200 }} />
+                <Space direction="vertical">
+                    <DatePicker
+                        value={selectedDate}
+                        onChange={(dateString) => setSelectedDate(dateString)}
+                    />
+                </Space>
+                <Input
+                    placeholder="등록할 ToDoList를 입력하세요"
+                    value={todoName}
+                    onChange={(e) => setTodoName(e.target.value)}
+                    style={{ width: 200 }}
+                />
                 <Button type="primary" onClick={insToDo}>
                     등록
                 </Button>
