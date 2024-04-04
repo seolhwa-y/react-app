@@ -3,6 +3,7 @@ import { Route, Routes, Link } from 'react-router-dom'; // NavLink -> Linkë¡œ ë³
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Layout, Button, theme } from 'antd';
 import './App.css';
+import store from './store.js';
 import {
     Login,
     Home,
@@ -13,7 +14,7 @@ import {
     ToDoList,
     SamplePage,
     Pokemon,
-} from './components/index.jsx';
+} from './components/index';
 
 const { Header, Content, Sider } = Layout;
 

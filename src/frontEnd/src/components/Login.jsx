@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // api 통신
 import { Button, Checkbox, Form, Input, Alert, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import store from '../store.js';
 
 const Login = () => {
     const navigate = useNavigate();
     const [error, setError] = useState(null); // 실패 메시지 상태 추가
+
+    store.dispatch({
+        type: 'SET_SESSION_DATA',
+        payload: { userInfo: { userId: 'admin', userPwd: '1234' } },
+    });
+    const currentState = store.getState().sessionData;
+    const userInfo = currentState ? currentState.userInfo : null;
+    
+    if (!userInfo) console.log(userInfo);
 
     const onFinish = (values) => {
         let params = new URLSearchParams(values);
@@ -31,6 +41,10 @@ const Login = () => {
         console.log('Failed:', errorInfo);
         setError('로그인에 실패했습니다. 입력된 정보를 확인해주세요.'); // 일반적인 실패 메시지 설정
     };
+
+    useEffect(() => {
+        if (userInfo !== null) navigate('/Home'); // 페이지 이동
+    }, [userInfo, navigate]);
 
     return (
         <div>

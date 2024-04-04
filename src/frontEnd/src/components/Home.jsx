@@ -5,13 +5,13 @@ const Home = () => {
     let [data, setData] = useState('');
     // 서버 연동 확인 START
     useEffect(() => {
-        axios // RestAPI 활용해서 데이터 가져오기
-            .get('/api/hello')
-            .then((response) => {
-                console.log('response', response.data);
-                setData(response.data);
-            })
-            .catch((error) => console.log(error));
+        // axios // RestAPI 활용해서 데이터 가져오기
+        //     .get('/api/hello')
+        //     .then((response) => {
+        //         console.log('response', response.data);
+        //         setData(response.data);
+        //     })
+        //     .catch((error) => console.log(error));
     }, []);
     // 서버 연동 확인 END
 

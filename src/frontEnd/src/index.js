@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom'; // * BrowserRouter 불러오기
+import { Provider } from 'react-redux';
+import store from './store.js';
 import './index.css';
 import App from './App';
 // import reportWebVitals from './reportWebVitals';
@@ -9,9 +11,11 @@ import * as serviceWorker from './serviceWorker';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+    <Provider store={store}>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </Provider>
 );
 /* App이 ui 전체 */
 
